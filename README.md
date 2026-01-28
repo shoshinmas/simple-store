@@ -1,36 +1,4 @@
-# simple-store
-Cybersec training web app (store with UUID)
-
-
 # Simple Store – Spring Boot Security Training App
-
-
-### A07: Identification and Authentication Failures
-- Simplified authentication logic
-- No session/user context binding
-
-
-**Exercise:**
-- Implement proper authentication flow
-- Track authenticated user identity correctly
-
-
----
-
-
-### A09: Security Logging and Monitoring Failures
-- No audit trail
-- No logging of security events
-
-
-**Exercise:**
-- Add login / logout / admin action logging
-- Introduce basic audit logs
-
-
----
-
-
 ## 🧠 Portfolio Usage Strategy
 
 
@@ -97,3 +65,4 @@ Do **NOT** deploy this application to production without implementing proper sec
 
 
 MIT – use freely for learning, demos, and training.
+
