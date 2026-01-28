@@ -1,0 +1,16 @@
+<html><body>
+<h2>Admin</h2>
+<h3>Add Product</h3>
+<form action="/admin/addProduct" method="post">
+    <input name="name"/>
+    <button>Add</button>
+</form>
+<h3>Users</h3>
+<div th:each="u : ${users}">
+    <span th:text="${u.username}"></span>
+</div>
+<h3>Transactions</h3>
+<div th:each="t : ${transactions}">
+    <span th:text="${t.id}"></span>
+</div>
+</body></html>

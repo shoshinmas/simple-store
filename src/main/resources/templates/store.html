@@ -1,0 +1,14 @@
+<html><body>
+<h2>Store</h2>
+<div th:each="p : ${products}">
+    <img src="https://via.placeholder.com/100"/>
+    <span th:text="${p.name}"></span>
+    <form th:action="@{'/buy/' + ${p.name}}" method="post">
+        <button>Buy</button>
+    </form>
+</div>
+<h3>Transactions</h3>
+<div th:each="t : ${transactions}">
+    <span th:text="${t.id}"></span> - <span th:text="${t.productName}"></span>
+</div>
+</body></html>
