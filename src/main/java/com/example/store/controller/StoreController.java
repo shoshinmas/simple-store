@@ -1,6 +1,7 @@
 package com.example.store.controller;
 import com.example.store.model.*;
 import com.example.store.repository.MemoryDB;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -35,6 +36,12 @@ public class StoreController {
 
 @Controller
 class AuthController {
+    private final PasswordEncoder passwordEncoder;
+
+    public AuthController(PasswordEncoder passwordEncoder) {
+        this.passwordEncoder = passwordEncoder;
+    }
+    
     @GetMapping("/login")
     public String login() { return "login"; }
 
@@ -47,7 +54,7 @@ class AuthController {
     public String registerUser(@RequestParam String username,@RequestParam String password) {
         User u = new User();
         u.username = username;
-        u.password = password;
+        u.password = passwordEncoder.encode(password);
         u.role = "USER";
         MemoryDB.users.add(u);
         return "redirect:/login";
