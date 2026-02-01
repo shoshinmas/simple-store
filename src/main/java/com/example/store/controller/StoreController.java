@@ -5,6 +5,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+
 
 
 @Controller
@@ -17,20 +20,47 @@ public class StoreController {
 
     @GetMapping("/store")
     public String store(Model model) {
+
+        Authentication auth = SecurityContextHolder
+                .getContext()
+                .getAuthentication();
+
+        boolean isAdmin = auth.getAuthorities().stream()
+                .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
+
         model.addAttribute("products", MemoryDB.products);
-        model.addAttribute("transactions", MemoryDB.transactions);
+
+        if (isAdmin) {
+            model.addAttribute("transactions", MemoryDB.transactions);
+        } else {
+            model.addAttribute(
+                    "transactions",
+                    MemoryDB.transactions.stream()
+                            .filter(t -> t.username.equals(auth.getName()))
+                            .toList()
+            );
+        }
+
         return "store";
     }
 
 
+
     @PostMapping("/buy/{name}")
     public String buy(@PathVariable String name) {
+
+        Authentication auth = SecurityContextHolder
+                .getContext()
+                .getAuthentication();
+
         Transaction t = new Transaction();
         t.productName = name;
-        t.username = "loggedUser";
+        t.username = auth.getName();
+
         MemoryDB.transactions.add(t);
         return "redirect:/store";
     }
+
 }
 
 
@@ -41,7 +71,7 @@ class AuthController {
     public AuthController(PasswordEncoder passwordEncoder) {
         this.passwordEncoder = passwordEncoder;
     }
-    
+
     @GetMapping("/login")
     public String login() { return "login"; }
 
