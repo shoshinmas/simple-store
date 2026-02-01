@@ -1,0 +1,1 @@
+I demonstrated an A02 cryptographic failure, then fixed it using BCrypt while preserving Spring Security’s authentication flow.
